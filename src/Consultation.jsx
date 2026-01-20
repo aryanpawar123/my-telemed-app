@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { FileText, Clock, Video, CheckCircle, Mic, Monitor, Wifi } from 'lucide-react';
+import { FileText, Clock, Video, CheckCircle, Mic, Monitor, Wifi, Info, AlertTriangle, Check } from 'lucide-react';
 
 const Consultation = () => {
   const [step, setStep] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
-  // --- Step 1: Patient Intake Form ---
+  // --- Step 1: Patient Intake Form (UPDATED) ---
   const Step1 = () => {
     const [chestPain, setChestPain] = useState('No');
     const [bleeding, setBleeding] = useState('No');
@@ -13,51 +13,91 @@ const Consultation = () => {
 
     return (
         <div className="card">
-        <h3 style={{ borderBottom: '1px solid #eee', paddingBottom: '15px', marginBottom: '20px' }}>1. Patient Information</h3>
-        <div className="form-grid">
-            <div><label>Patient Id</label><input className="input-field" placeholder="Enter" /></div>
-            <div><label>Phone Number *</label><input className="input-field" placeholder="Enter" /></div>
-        </div>
-        <div className="form-grid-3">
-            <div><label>Name*</label><input className="input-field" defaultValue="Varun c" /></div>
-            <div><label>Email Id</label><input className="input-field" defaultValue="xyz@gmail.com" /></div>
-            <div><label>Age*</label><input className="input-field" defaultValue="23" /></div>
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-            <label>Reason for Visit *</label>
-            <textarea className="input-field" rows="3" placeholder="Enter reason"></textarea>
-        </div>
-        <h3 style={{ borderBottom: '1px solid #eee', paddingBottom: '15px', marginBottom: '20px', marginTop: '40px' }}>2. Vital Signs</h3>
-        <div className="form-grid-3">
-            <div><label>BP*</label><input className="input-field" placeholder="Enter" /></div>
-            <div><label>Temperature (Celsius)</label><input className="input-field" placeholder="Enter" /></div>
-            <div><label>Pulse*</label><input className="input-field" placeholder="Enter" /></div>
-        </div>
-        <h3 style={{ borderBottom: '1px solid #eee', paddingBottom: '15px', marginBottom: '20px', marginTop: '40px' }}>3. Screening</h3>
-        <div style={{ background: '#F8F9FA', padding: '15px', borderRadius: '8px', marginBottom: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>Experiencing severe chest pain or difficulty breathing?</span>
-            <div className="toggle-group">
-                <button className={`toggle-btn ${chestPain === 'No' ? 'active' : ''}`} onClick={() => setChestPain('No')}>No</button>
-                <button className={`toggle-btn ${chestPain === 'Yes' ? 'active' : ''}`} onClick={() => setChestPain('Yes')}>Yes</button>
+            {/* Section 1: Patient Information */}
+            <h3 style={{ borderBottom: '1px solid #eee', paddingBottom: '15px', marginBottom: '20px' }}>1. Patient Information</h3>
+            
+            <div className="form-grid">
+                <div><label>Patient Id</label><input className="input-field" placeholder="Enter" /></div>
+                <div><label>Phone Number *</label><input className="input-field" placeholder="Enter" /></div>
             </div>
-        </div>
-        <div style={{ background: '#F8F9FA', padding: '15px', borderRadius: '8px', marginBottom: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>Experiencing severe bleeding or trauma?</span>
-            <div className="toggle-group">
-                <button className={`toggle-btn ${bleeding === 'No' ? 'active' : ''}`} onClick={() => setBleeding('No')}>No</button>
-                <button className={`toggle-btn ${bleeding === 'Yes' ? 'active' : ''}`} onClick={() => setBleeding('Yes')}>Yes</button>
+
+            {/* Blue Info Alert */}
+            <div className="alert-box alert-blue">
+                <Info size={16} style={{ flexShrink: 0, marginTop: '2px' }} />
+                <span>Enter Patient ID or Phone Number if the Patient Exists in the Database the Information will Autopopulate if Not a New Patient ID is created</span>
             </div>
-        </div>
-         <div style={{ background: '#F8F9FA', padding: '15px', borderRadius: '8px', marginBottom: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>Showing signs of stroke or heart attack?</span>
-            <div className="toggle-group">
-                <button className={`toggle-btn ${stroke === 'No' ? 'active' : ''}`} onClick={() => setStroke('No')}>No</button>
-                <button className={`toggle-btn ${stroke === 'Yes' ? 'active' : ''}`} onClick={() => setStroke('Yes')}>Yes</button>
+            
+            <div className="form-grid-3">
+                <div><label>Name*</label><input className="input-field" placeholder="Enter" /></div>
+                <div><label>Email Id</label><input className="input-field" placeholder="Enter" /></div>
+                <div><label>Age*</label><input className="input-field" placeholder="Enter" /></div>
             </div>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '30px' }}>
-            <button className="btn btn-primary" onClick={() => setStep(2)}>Proceed</button>
-        </div>
+
+            <div style={{ marginBottom: '20px' }}>
+                <label>Date of Birth*</label>
+                <input type="date" className="input-field" />
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+                <label>Reason for Visit *</label>
+                <textarea className="input-field" rows="2" placeholder="Enter"></textarea>
+            </div>
+
+            {/* Section 2: Vital Signs */}
+            <h3 style={{ borderBottom: '1px solid #eee', paddingBottom: '15px', marginBottom: '20px', marginTop: '40px' }}>2. Vital Signs</h3>
+            <div className="form-grid-3">
+                <div><label>BP*</label><input className="input-field" placeholder="Enter" /></div>
+                <div><label>Temperature (Celsius)</label><input className="input-field" placeholder="Enter" /></div>
+                <div><label>Pulse*</label><input className="input-field" placeholder="Enter" /></div>
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+                <label>Medical History*</label>
+                <textarea className="input-field" rows="3" placeholder="Any allergies, chronic conditions, or relevant medical history..."></textarea>
+            </div>
+
+            {/* Section 3: Screening */}
+            <h3 style={{ borderBottom: '1px solid #eee', paddingBottom: '15px', marginBottom: '20px', marginTop: '40px' }}>2. Screening</h3>
+            
+            {/* Orange Warning Alert */}
+            <div className="alert-box alert-orange">
+                <AlertTriangle size={16} style={{ flexShrink: 0, marginTop: '2px' }} />
+                <span>Enter Patient ID or Phone Number if the Patient Exists in the Database the Information will Autopopulate</span>
+            </div>
+            
+            <div style={{ background: '#F8F9FA', padding: '15px', borderRadius: '8px', marginBottom: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span>Experiencing severe chest pain or difficulty breathing?</span>
+                <div className="toggle-group">
+                    <button className={`toggle-btn ${chestPain === 'No' ? 'active' : ''}`} onClick={() => setChestPain('No')}>No</button>
+                    <button className={`toggle-btn ${chestPain === 'Yes' ? 'active' : ''}`} onClick={() => setChestPain('Yes')}>Yes</button>
+                </div>
+            </div>
+
+            <div style={{ background: '#F8F9FA', padding: '15px', borderRadius: '8px', marginBottom: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span>Experiencing severe bleeding or trauma?</span>
+                <div className="toggle-group">
+                    <button className={`toggle-btn ${bleeding === 'No' ? 'active' : ''}`} onClick={() => setBleeding('No')}>No</button>
+                    <button className={`toggle-btn ${bleeding === 'Yes' ? 'active' : ''}`} onClick={() => setBleeding('Yes')}>Yes</button>
+                </div>
+            </div>
+
+            <div style={{ background: '#F8F9FA', padding: '15px', borderRadius: '8px', marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span>Showing signs of stroke or heart attack?</span>
+                <div className="toggle-group">
+                    <button className={`toggle-btn ${stroke === 'No' ? 'active' : ''}`} onClick={() => setStroke('No')}>No</button>
+                    <button className={`toggle-btn ${stroke === 'Yes' ? 'active' : ''}`} onClick={() => setStroke('Yes')}>Yes</button>
+                </div>
+            </div>
+
+            {/* Green Success Alert */}
+            <div className="alert-box alert-green">
+                <CheckCircle size={16} style={{ flexShrink: 0, marginTop: '2px' }} />
+                <span>Enter Patient ID or Phone Number if the Patient Exists in the Database the Information will Autopopulate</span>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '30px' }}>
+                <button className="btn btn-primary" onClick={() => setStep(2)}>Proceed</button>
+            </div>
         </div>
     );
   };
@@ -90,10 +130,9 @@ const Consultation = () => {
     </div>
   );
 
-  // --- Step 3: Video Call (UPDATED) ---
+  // --- Step 3: Video Call ---
   const Step3 = () => (
     <div className="video-layout">
-        {/* Left: Video */}
         <div className="video-container">
             <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" alt="Patient" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
             <div style={{ position: 'absolute', bottom: '30px', left: '0', right: '0', display: 'flex', justifyContent: 'center', gap: '20px' }}>
@@ -102,8 +141,6 @@ const Consultation = () => {
                 <button style={{ padding: '0 30px', borderRadius: '30px', background: '#D50000', border: 'none', color: 'white', fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setStep(4)}>End Call</button>
             </div>
         </div>
-
-        {/* Right: Quick Notes & Info */}
         <div className="video-notes">
             <div className="card">
                 <h3>Patient Details</h3>

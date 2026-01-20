@@ -1,9 +1,20 @@
-import React from 'react';
-import { Users, Clock, Video, CheckCircle, Search } from 'lucide-react';
+import React, { useState } from 'react';
+import { Users, Clock, Video, CheckCircle, Search, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
+  
+  // State for the calendar
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [dateRange, setDateRange] = useState({ start: '2023-10-24', end: '2023-11-12' });
+
+  // Helper to format dates for display
+  const formatDate = (dateString) => {
+    if(!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  };
 
   return (
     <div>
@@ -12,8 +23,47 @@ const Dashboard = () => {
           <h1>Welcome Samantha</h1>
           <p style={{ color: '#777', fontSize: '14px' }}>Welcome to Telemedicine App</p>
         </div>
-        <div style={{ background: 'white', padding: '8px 15px', borderRadius: '6px', border: '1px solid #ddd', fontSize: '14px' }}>
-          📅 24th Oct to 12th Nov ▾
+        
+        {/* FUNCTIONAL DATE PICKER BUTTON */}
+        <div style={{ position: 'relative' }}>
+            <div 
+                onClick={() => setShowDatePicker(!showDatePicker)}
+                style={{ background: 'white', padding: '8px 15px', borderRadius: '6px', border: '1px solid #ddd', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', userSelect: 'none' }}
+            >
+                <Calendar size={16} /> 
+                {formatDate(dateRange.start)} to {formatDate(dateRange.end)} ▾
+            </div>
+
+            {/* POPUP CALENDAR */}
+            {showDatePicker && (
+                <div className="date-picker-popup">
+                    <div>
+                        <span className="date-label">Start Date</span>
+                        <input 
+                            type="date" 
+                            className="input-field" 
+                            value={dateRange.start}
+                            onChange={(e) => setDateRange({...dateRange, start: e.target.value})}
+                        />
+                    </div>
+                    <div>
+                        <span className="date-label">End Date</span>
+                        <input 
+                            type="date" 
+                            className="input-field" 
+                            value={dateRange.end}
+                            onChange={(e) => setDateRange({...dateRange, end: e.target.value})}
+                        />
+                    </div>
+                    <button 
+                        className="btn btn-primary" 
+                        style={{ width: '100%', padding: '8px', marginTop: '5px' }}
+                        onClick={() => setShowDatePicker(false)}
+                    >
+                        Apply
+                    </button>
+                </div>
+            )}
         </div>
       </div>
 
@@ -71,7 +121,6 @@ const Dashboard = () => {
               <td>+983 2424253</td>
               <td>liam.smith@gmail.com</td>
               <td>13 Jan 2024, 09:15</td>
-              {/* This is the key change: Add onClick to navigate */}
               <td>
                 <span 
                     className="status-link" 
