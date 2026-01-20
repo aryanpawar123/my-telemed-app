@@ -7,12 +7,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
-
-  // Function to handle logout
-  const handleLogout = () => {
-    // You can add logic here to clear user tokens if needed
-    navigate('/');
-  };
+  const handleLogout = () => navigate('/');
 
   return (
     <div className="sidebar">
@@ -21,7 +16,8 @@ const Sidebar = () => {
         Sawsan Telemed
       </div>
       
-      <div style={{ flex: 1 }}>
+      {/* WRAPPER DIV ADDED HERE */}
+      <div className="nav-group">
         <div 
             className={`nav-item ${isActive('/dashboard') ? 'active' : ''}`}
             onClick={() => navigate('/dashboard')}
@@ -40,10 +36,9 @@ const Sidebar = () => {
          <div className="nav-item">
             <Settings size={20} /> Settings
         </div>
-      </div>
 
-      <div style={{ borderTop: '1px solid #eee', paddingTop: '20px' }}>
-        <div className="nav-item" style={{ color: '#D50000' }} onClick={handleLogout}>
+        {/* Move Logout inside the group for mobile layout consistency */}
+        <div className="nav-item" style={{ color: '#D50000', marginTop: 'auto' }} onClick={handleLogout}>
           <LogOut size={20} /> Logout
         </div>
       </div>
