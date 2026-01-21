@@ -90,3 +90,32 @@ label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; c
   .video-layout { flex-direction: column; height: auto; }
   .video-container { height: 350px; flex: none; }
 }
+/* --- NEW FIX FOR SCREENING QUESTIONS --- */
+.screening-row {
+  background: #F8F9FA;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .screening-row {
+    flex-direction: column; /* Stack vertically on phone */
+    align-items: flex-start; /* Align left */
+    gap: 15px; /* Add space between text and buttons */
+  }
+  
+  .screening-row .toggle-group {
+    width: 100%; /* Make buttons full width */
+    display: flex;
+  }
+  
+  .screening-row .toggle-btn {
+    flex: 1; /* Split width 50/50 */
+    text-align: center;
+    padding: 12px; /* Bigger touch target */
+  }
+}
