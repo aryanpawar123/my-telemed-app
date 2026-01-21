@@ -7,13 +7,19 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { patients } = usePatients();
   
-  // Default range covers the dummy data dates
+  // Calculate defaults: Start = 1st of current month, End = Today
+  const today = new Date();
+  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+  
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [dateRange, setDateRange] = useState({ start: '2023-10-01', end: '2023-12-31' });
+  const [dateRange, setDateRange] = useState({ 
+    start: firstDay.toISOString().split('T')[0], 
+    end: today.toISOString().split('T')[0] 
+  });
 
-  // FILTER LOGIC: Only show patients within the selected range
+  // FILTER LOGIC
   const filteredPatients = patients.filter(p => {
-    if (!p.date) return true; // Show if no date
+    if (!p.date) return true;
     return p.date >= dateRange.start && p.date <= dateRange.end;
   });
 
@@ -28,7 +34,7 @@ const Dashboard = () => {
       <div className="header">
         <div><h1>Welcome Samantha</h1><p style={{ color: '#777' }}>Welcome to Telemedicine App</p></div>
         
-        {/* Date Filter Button */}
+        {/* Date Filter */}
         <div style={{ position: 'relative' }}>
             <div 
                 onClick={() => setShowDatePicker(!showDatePicker)}
@@ -38,7 +44,6 @@ const Dashboard = () => {
                 {formatDate(dateRange.start)} to {formatDate(dateRange.end)} ▾
             </div>
 
-            {/* Popup */}
             {showDatePicker && (
                 <div className="date-picker-popup">
                     <div><span className="date-label">Start Date</span><input type="date" className="input-field" value={dateRange.start} onChange={(e) => setDateRange({...dateRange, start: e.target.value})}/></div>
@@ -49,7 +54,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Stats Cards (Now dynamic based on filtered results) */}
+      {/* Stats Cards (Dynamic) */}
       <div className="stats-grid">
         <div className="card" style={{display:'flex', gap:'15px', alignItems:'center'}}>
             <div style={{background:'#FF5722', padding:'10px', borderRadius:'50%', color:'white'}}><Users /></div>
